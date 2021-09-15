@@ -44,12 +44,12 @@ def user_list():
 
         response = []
 
-        for user in User.query.all():
+        for users in User.query.all():
             responseObject = {
-                "admin": user.admin,
-                "email": user.email,
-                "id": user.id,
-                "registered_on": user.registered_on
+                "admin": users.admin,
+                "email": users.email,
+                "id": users.id,
+                "registered_on": users.registered_on
             }
             response.append(responseObject)
         return jsonify(response)
