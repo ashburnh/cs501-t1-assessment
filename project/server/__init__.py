@@ -31,8 +31,6 @@ app.config.from_object(app_settings)
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 
-db.create_all()
-
 from project.server.models import User
 migrate = Migrate(app, db)
 
