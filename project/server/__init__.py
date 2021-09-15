@@ -31,6 +31,8 @@ app.config.from_object(app_settings)
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 
+db.create_all()
+
 from project.server.models import User
 migrate = Migrate(app, db)
 
@@ -38,11 +40,23 @@ migrate = Migrate(app, db)
 def root_site():
     return "<p>It works!</p>"
 
+@app.route("/users/index")
+def user_list():
+
+        response = []
+
+        for user in User.query.all():
+            responseObject = {
+                "admin": user.admin,
+                "email": user.email,
+                "id": user.id,
+                "registered_on": user.registered_on
+            }
+            response.append(responseObject)
+        return jsonify(response)
+
 from project.server.auth.views import auth_blueprint
 app.register_blueprint(auth_blueprint)
-
-from project.server.users.index import index_blueprint
-app.register_blueprint(index_blueprint)
 
 
 @app.cli.command()
